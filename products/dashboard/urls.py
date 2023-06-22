@@ -6,7 +6,8 @@ from .views import DasboardProductCategoryModelListCreateAPIView, DasboardProduc
     DasboardProductCategoryModelGenericAPIView, DasboardProductBrandModelGenericAPIView, \
     DasboardProductColorModelGenericAPIView, DasboardProductDescriptionModelGenericAPIView, \
     DasboardProductImageModelGenericAPIView, DasboardProductServiceModelGenericAPIView, \
-    DasboardProductVariationModelGenericAPIView, DashboardProductMainModelCreateAPIView
+    DasboardProductVariationModelGenericAPIView, DashboardProductMainModelCreateAPIView, \
+    DashboardProductMainModelListAPIView
 
 urlpatterns = [
     path("product-category-list-create-api-view/", DasboardProductCategoryModelListCreateAPIView.as_view(),
@@ -49,4 +50,6 @@ urlpatterns = [
     path("product-list-api-view/", DasboardProductModelListAPIView.as_view(), name="DasboardProductModelListAPIView"),
     path("product-main-model-create-api-view/", DashboardProductMainModelCreateAPIView.as_view(),
          name="DashboardProductMainModelCreateAPIView"),
+    path("product-main-model-list-api-view/", DashboardProductMainModelListAPIView.as_view(),
+         name="DashboardProductMainModelListAPIView"),
 ]

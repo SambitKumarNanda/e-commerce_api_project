@@ -1,7 +1,7 @@
 from .serializers import ProductCategoryModelSerializer, ProductBrandModelSerializer, ProductColorModelSerializer, \
     ProductDescriptionModelSerializer, ProductImageModelSerializer, ProductServiceModelSerializer, \
     ProductVariationModelSerializer, ProductModelCreateSerializer, ProductModelListSerializer, \
-    DashboardProductMainModelCreateSerializer
+    DashboardProductMainModelCreateSerializer, DashboardProductMainModelListSerializer
 from ..models import ProductCategoryModel, ProductBrandModel, ProductColorModel, ProductDescriptionModel, \
     ProductImageModel, ProductServiceModel, ProductVariationModel, ProductModel, ProductMainModel
 from rest_framework import generics, status, filters
@@ -296,3 +296,6 @@ class DashboardProductMainModelCreateAPIView(generics.CreateAPIView):
     serializer_class = DashboardProductMainModelCreateSerializer
 
 
+class DashboardProductMainModelListAPIView(generics.ListAPIView):
+    queryset = ProductMainModel.objects.all()
+    serializer_class = DashboardProductMainModelListSerializer
