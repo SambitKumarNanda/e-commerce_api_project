@@ -1,6 +1,7 @@
-from ..models import UserWishListModel, UserProfileModel
+from ..models import UserWishListModel, UserProfileModel, UserCartModel
 from products.models import ProductMainModel, ProductModel
-from .serializers import WebsiteUserWishListUpdateSerializer, WebsiteUserWishListSerializer
+from .serializers import WebsiteUserWishListUpdateSerializer, WebsiteUserWishListSerializer, \
+    WebsiteUserCartListSerializer, WebsiteUserCartUpdateSerializer
 from rest_framework import generics, status, permissions
 from rest_framework.response import Response
 
@@ -39,6 +40,46 @@ class WebsiteUserWishListAPIView(generics.ListAPIView):
 
     def get_queryset(self):
         return UserProfileModel.objects.get(user=self.request.user).wishlist
+
+    def list(self, request):
+        serializer = self.serializer_class(self.get_queryset(), many=False)
+        return Response(serializer.data, status=status.HTTP_200_OK)
+
+
+class WebsiteUserCartUpdateAPIView(generics.GenericAPIView):
+    queryset = UserCartModel.objects.all()
+    serializer_class = WebsiteUserCartUpdateSerializer
+    permissions_classes = [permissions.IsAuthenticated]
+
+    def post(self, request):
+        userprofile_query = UserProfileModel.objects.get(user=request.user)
+        query = userprofile_query.cart
+        product = ProductMainModel.objects.get(product_code=request.data['product_code'])
+        query.products.add(product)
+        query.save()
+        return Response({"message": "Added to Cart"}, status=status.HTTP_200_OK)
+
+
+class WebsiteUserCartRemoveAPIView(generics.GenericAPIView):
+    queryset = UserCartModel.objects.all()
+    serializer_class = WebsiteUserCartUpdateSerializer
+    permission_classes = [permissions.IsAuthenticated]
+
+    def post(self, request):
+        userprofile_query = UserProfileModel.objects.all()
+        query = userprofile_query.cart
+        product = ProductMainModel.objects.get(product_code=request.data['product_code'])
+        query.products.remove(product)
+        query.save()
+        return Response({"message": "Removed from Cart"}, status=status.HTTP_200_OK)
+
+
+class WebsiteUserCartListAPIView(generics.ListAPIView):
+    queryset = UserCartModel.objects.all()
+    serializer_class = WebsiteUserCartListSerializer
+
+    def get_queryset(self):
+        queryset = UserCartModel.objects.get(user=self.request.user).cart
 
     def list(self, request):
         serializer = self.serializer_class(self.get_queryset(), many=False)

@@ -1,2 +1,2 @@
 # e-commerce_api_project
-backend api of an ecommerce application
+Backend api of an ecommerce application made using django rest_framework
