@@ -147,3 +147,9 @@ class ProductModelCreateSerializer(serializers.ModelSerializer):
             instance.description.add(description_instance)
 
         return validated_data
+
+
+class DashboardProductMainModelCreateSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = ProductMainModel
+        fields = "__all__"
