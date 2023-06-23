@@ -1,5 +1,5 @@
 from rest_framework import serializers
-from ..models import UserWishListModel, UserCartModel
+from ..models import UserWishListModel, UserCartModel, UserAddressModel, UserProfileModel
 from products.dashboard.serializers import DashboardProductMainModelListSerializer
 
 
@@ -46,3 +46,24 @@ class WebsiteUserCartListSerializer(serializers.ModelSerializer):
             data = DashboardProductMainModelListSerializer(obj.product.all(), many=True).data
         except:
             return data
+
+
+class WebsiteUserAddressModelListSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = UserAddressModel
+        fields = "__all__"
+
+
+class WebsiteUserProfileModelUpdateSerializer(serializers.ModelSerializer):
+    address = serializers.SerializerMethodField()
+
+    class Meta:
+        model = UserProfileModel
+        exclude = ["wishlist", "cart", "user"]
+
+    def get_address(self, obj):
+        try:
+            data = WebsiteUserAddressModelListSerializer(obj.address.all(), many=True).data
+        except:
+            data = []
+        return data

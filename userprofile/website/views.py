@@ -1,7 +1,7 @@
 from ..models import UserWishListModel, UserProfileModel, UserCartModel
 from products.models import ProductMainModel, ProductModel
 from .serializers import WebsiteUserWishListUpdateSerializer, WebsiteUserWishListSerializer, \
-    WebsiteUserCartListSerializer, WebsiteUserCartUpdateSerializer
+    WebsiteUserCartListSerializer, WebsiteUserCartUpdateSerializer, WebsiteUserProfileModelUpdateSerializer
 from rest_framework import generics, status, permissions
 from rest_framework.response import Response
 
@@ -84,3 +84,22 @@ class WebsiteUserCartListAPIView(generics.ListAPIView):
     def list(self, request):
         serializer = self.serializer_class(self.get_queryset(), many=False)
         return Response(serializer.data, status=status.HTTP_200_OK)
+
+
+class WebsiteUserProfileModelUpdateAPIView(generics.GenericAPIView):
+    queryset = UserProfileModel.objects.all()
+    serializer_class = WebsiteUserProfileModelUpdateSerializer
+
+    def get(self, request):
+        queryset = self.queryset.get(user=request.user)
+        serializer = self.serializer_class(queryset, many=False)
+        return Response(serializer.data, status=status.HTTP_200_OK)
+
+    def put(self, request):
+        queryset = self.queryset.get(user=request.user)
+        serializer = self.serializer_class(instance=queryset, data=request.data)
+        if serializer.is_valid():
+            serializer.save()
+            return Response(serializer.data, status=status.HTTP_200_OK)
+        else:
+            return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
