@@ -1,5 +1,5 @@
 from rest_framework import serializers
-from products.dashboard.serializers import DashboardProductMainListSerializer
+from products.dashboard.serializers import DashboardProductMainModelListSerializer
 from ..models import UserWishListModel, UserCartModel
 
 
@@ -12,7 +12,7 @@ class DashboardUserWishListSerializer(serializers.ModelSerializer):
 
     def get_products(self, obj):
         try:
-            data = DashboardProductMainListSerializer(obj.products.all(), many=True).data
+            data = DashboardProductMainModelListSerializer(obj.products.all(), many=True).data
         except:
             data = []
         return data
@@ -27,7 +27,7 @@ class DashboardUserCartListSerializer(serializers.ModelSerializer):
 
     def get_products(self, obj):
         try:
-            data = DashboardProductMainListSerializer(obj.products.all(), many=True).data
+            data = DashboardProductMainModelListSerializer(obj.products.all(), many=True).data
         except:
             data = []
         return data
