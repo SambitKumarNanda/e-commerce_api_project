@@ -3,8 +3,10 @@ from orders.models import OrderModel
 from products.models import ProductMainModel, ProductModel
 from rest_framework import serializers
 
+
 class WebsiteProductReviewModelCreateSerializer(serializers.ModelSerializer):
     images = serializers.ImageField(required=False)
+
     class Meta:
         model = ProductReviewModel
         # fields = "__all__"
@@ -13,8 +15,7 @@ class WebsiteProductReviewModelCreateSerializer(serializers.ModelSerializer):
     def validate(self, data):
         product = data["product"]
         if not OrderModel.objects.filter(user=self.context["request"].user, product__product=product).exists():
-            raise serializers.ValidationError({"message" : "You can only review the project after ordering"})
-
+            raise serializers.ValidationError({"message": "You can only review the project after ordering"})
 
         return data
 
