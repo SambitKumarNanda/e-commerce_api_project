@@ -1,14 +1,20 @@
 from django.urls import path
 from .views import WebsiteUserWishListUpdateAPIView, WebsiteUserWishListRemoveAPIView, WebsiteUserWishListAPIView, \
-    WebsiteUserCartListAPIView, WebsiteUserCartUpdateAPIView, WebsiteUserCartRemoveAPIView, \
-    WebsiteUserProfileModelUpdateAPIView
+    WebsiteUserCartListUpdateAPIView, WebsiteUserCartListRemoveAPIView, WebsiteUserCartListAPIView, \
+    WebsiteUserProfileModelUpdateAPIView, WebsiteUserAddressModelCreateAPIView, \
+    WebsiteUserAddressModelUpdateGenericAPIView
 
 urlpatterns = [
     path("add-to-wishlist/", WebsiteUserWishListUpdateAPIView.as_view(), name="WebsiteUserWishListUpdateAPIView"),
     path("remove-to-wishlist/", WebsiteUserWishListRemoveAPIView.as_view(), name="WebsiteUserWishListRemoveAPIView"),
     path("user-wishlist/", WebsiteUserWishListAPIView.as_view(), name="WebsiteUserWishListAPIView"),
+    path("add-to-cart/", WebsiteUserCartListUpdateAPIView.as_view(), name="WebsiteUserCartListUpdateAPIView"),
+    path("remove-to-cart/", WebsiteUserCartListRemoveAPIView.as_view(), name="WebsiteUserCartListRemoveAPIView"),
     path("user-cart/", WebsiteUserCartListAPIView.as_view(), name="WebsiteUserCartListAPIView"),
-    path("add-to-cart/", WebsiteUserCartUpdateAPIView.as_view(), name="WebsiteUserCartUpdateAPIView"),
-    path("remove-from-cart/", WebsiteUserCartRemoveAPIView.as_view(), name="WebsiteUserCartRemoveAPIView"),
     path("user-profile/", WebsiteUserProfileModelUpdateAPIView.as_view(), name="WebsiteUserProfileModelUpdateAPIView"),
+    path("user-create-address/", WebsiteUserAddressModelCreateAPIView.as_view(),
+         name="WebsiteUserAddressModelCreateAPIView"),
+    path("user-create-address/<id>/", WebsiteUserAddressModelUpdateGenericAPIView.as_view(),
+         name="WebsiteUserAddressModelUpdateGenericAPIView"),
+
 ]
