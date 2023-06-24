@@ -34,6 +34,20 @@ class CustomUserManager(BaseUserManager):
         user.save(using=self._db)
         return user
 
+    def create_user(self, email, username, password=None, **extra_fields):
+        if not email:
+            raise ValueError("The Email field is required")
+
+        email = self.normalize_email(email)
+        extra_fields.setdefault("is_staff", False)
+        extra_fields.setdefault("is_employee", False)
+        extra_fields.setdefault("is_active", True)
+        extra_fields.setdefault("is_superuser", False)
+        user = self.model(email=email, username=username, **extra_fields)
+        user.set_password(password)
+        user.save(using=self._db)
+        return user
+
 
 class UserModel(AbstractBaseUser, PermissionsMixin):
     username = models.CharField(max_length=100, null=True, blank=True)
